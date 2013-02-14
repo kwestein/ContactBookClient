@@ -1,0 +1,31 @@
+/* 
+    Document   : application
+    Created on : 14-Feb-2013, 1:44:36 PM
+    Author     : Kirsten Westeinde
+    Description: 
+*/
+title{
+    margin: auto;
+}
+body {
+    font-family: Verdana, sans-serif;
+    font-size: 1em;
+}
+
+label {
+    display: block;
+    margin: 0.5em;
+}
+
+form {
+    margin: auto; /*tells the document to automatically put equal left and right margins on our element, centering it on the page. */
+    width: 40em;
+}
+
+fieldset {
+    margin: 1em;
+}
+
+button.remove {
+    float: right;
+}
