@@ -1,0 +1,18 @@
+{
+  "name": "user_client",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kwestein/UserClient.git"
+  },
+  "author": "Kirsen Westeinde",
+  "license": "BSD",
+  "dependencies": {
+      "node-static": "*"
+  }
+}
