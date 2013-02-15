@@ -1,10 +1,15 @@
-jQuery(function ($) {//Runs jquery function when everything else on the browser is loaded (as soon as document is ready to accept javascript). Sets jquery as $ so no other libraries can use it. $ is namespaced within that function
-   //Under the hood, jquery represents elements as arrays of 1
+jQuery(function ($) {
    var serverUrl = "http://localhost:3000",
        contactsPath = "/contacts",
 
-        serializeElement = function ($element) { //Parsing html and converts it to json. **html forms
+        serializeElement = function ($element) {
             var serializedElement = {};
+            
+            var arr = $element.serializeArray();
+            for (var i=0;i<arr.length;i++)
+            { 
+                console.log(arr[i]);
+            }
             
             $.map($element.serializeArray(), function (attribute) {
                 if (typeof serializedElement[attribute.name] === "undefined") {
@@ -25,7 +30,7 @@ jQuery(function ($) {//Runs jquery function when everything else on the browser 
                 var contacts = response.contacts,
                     $contacts = createContactsElement(contacts);
 
-                $("form").append($contacts);//putting under html form element
+                $("form").append($contacts);
             });
         },
 
