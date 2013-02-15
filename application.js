@@ -1,11 +1,11 @@
 jQuery(function ($) {//Runs jquery function when everything else on the browser is loaded (as soon as document is ready to accept javascript). Sets jquery as $ so no other libraries can use it. $ is namespaced within that function
    //Under the hood, jquery represents elements as arrays of 1
    var serverUrl = "http://localhost:3000",
-        usersPath = "/users",
+       contactsPath = "/contacts",
 
         serializeElement = function ($element) { //Parsing html and converts it to json. **html forms
             var serializedElement = {};
-
+            
             $.map($element.serializeArray(), function (attribute) {
                 if (typeof serializedElement[attribute.name] === "undefined") {
                     serializedElement[attribute.name] = attribute.value;
@@ -16,55 +16,55 @@ jQuery(function ($) {//Runs jquery function when everything else on the browser 
                     serializedElement[attribute.name].push(attribute.value);
                 }
             });
-
+            
             return serializedElement;
         },
 
-        renderUsers = function () {
-            $.getJSON(serverUrl + usersPath, function (response) {
-                var users = response.users,
-                    $users = createUsersElement(users);
+        renderContacts = function () {
+            $.getJSON(serverUrl + contactsPath, function (response) {
+                var contacts = response.contacts,
+                    $contacts = createContactsElement(contacts);
 
-                $("form").append($users);//putting under html form element
+                $("form").append($contacts);//putting under html form element
             });
         },
 
-        saveUsers = function () {
-            var users = [];
+        saveContacts = function () {
+            var contacts = [];
 
-            $("#users .user").each(function () {
-                var $user = $(this),
-                    user = serializeElement($user.find("> input"))
+            $("#contacts .contact").each(function () {
+                var $contact = $(this),
+                    contact = serializeElement($contact.find("> input"))
 
-                user.phoneNumbers = [];
-                $user.find(".phoneNumber").each(function () {
+                contact.phoneNumbers = [];
+                $contact.find(".phoneNumber").each(function () {
                     var phoneNumber = serializeElement($(this));
-                    seller.phoneNumbers.push(phoneNumber);
+                    contact.phoneNumbers.push(phoneNumber);
                 });
 
-                user.emailAddresses = [];
-                $user.find(".emailAddress").each(function () {
+                contact.emailAddresses = [];
+                $contact.find(".emailAddress").each(function () {
                     var emailAddress = serializeElement($(this));
-                    user.emailAddresses.push(emailAddress);
+                    contact.emailAddresses.push(emailAddress);
                 });
 
-                users.push(user);
+                contacts.push(contact);
             });
 
-            $.ajax(serverUrl + usersPath, {
+            $.ajax(serverUrl + contactsPath, {
                 "contentType": "application/json",
-                "data": JSON.stringify({"users": users}),
+                "data": JSON.stringify({"contacts": contacts}),
                 "processData": false,
                 "success": function () {
-                    alert("Users saved successfully");
+                    alert("Contacts saved successfully");
                 },
                 "type": "PUT"
             });
         },
 
-        createUsersElement = function (users) {
-            var $users = $("<fieldset></fieldset>", {
-                    "id": "users"
+        createContactsElement = function (contacts) {
+            var $contacts = $("<fieldset></fieldset>", {
+                    "id": "contacts"
                 }),
                 $legend = $("<legend></legend>"),
                 $add = $("<button></button>", {
@@ -74,43 +74,43 @@ jQuery(function ($) {//Runs jquery function when everything else on the browser 
                     "type": "button"
                 });
 
-            $legend.text("Users");
+            $legend.text("Contact Book");
 
             $add
-                .text("Add User")
+                .text("Add Contact")
                 .on("click", function () {
-                    var $user = createUserElement({
+                    var $contact = createContactElement({
                         "name":"",
                         "id": 0,
-                        "joined": new Date().toDateString(),
+                        "birthday": "",
                         "phoneNumbers": [],
                         "emailAddresses": []
                     });
-                    $users.append($user);
+                    $contacts.append($contact);
                 });
 
             $save
-                .text("Save Users")
+                .text("Save Contacts")
                 .on("click", function () {
-                    saveUsers();
+                    saveContacts();
                 });
 
-            $users
+            $contacts
                 .append($legend)
                 .append($add)
                 .append($save);
 
-            $.each(users, function (index, user) {
-                var $user = createUserElement(user);
-                $users.append($users);
+            $.each(contacts, function (index, contact) {
+                var $contact = createContactElement(contact);
+                $contacts.append($contact);
             });
 
-            return $users;
+            return $contacts;
         },
 
-        createUserElement = function (user) {
-            var user = $("<fieldset></fieldset>", {
-                    "class": "user"
+        createContactElement = function (contact) {
+            var $contact = $("<fieldset></fieldset>", {
+                    "class": "contact"
                 }),
                 $legend = $("<legend></legend>"),
                 $remove = $("<button></button>", {
@@ -120,52 +120,52 @@ jQuery(function ($) {//Runs jquery function when everything else on the browser 
                 $nameLabel = $("<label></label>"),
                 $nameValue = $("<input/>", {
                     "type": "text",
-                    "name": "offered"
+                    "name": "name"
                 }),
                 $idLabel = $("<label></label>"),
                 $idValue = $("<input/>", {
                     "type": "text",
                     "name": "id"
                 }),
-                $joinedLabel = $("<label></label>"),
-                $joinedValue = $("<input/>", {
+                $birthdayLabel = $("<label></label>"),
+                $birthdayValue = $("<input/>", {
                     "type": "text",
-                    "name": "offered"
+                    "name": "birthday"
                 }),
-                $phoneNumbers = createPhoneNumbersElement(seller.phoneNumbers),
-                $emailAddresses = createEmailAddressesElement(seller.emailAddresses);
+                $phoneNumbers = createPhoneNumbersElement(contact.phoneNumbers),
+                $emailAddresses = createEmailAddressesElement(contact.emailAddresses);
                 
 
-            $legend.text("Users");
+            $legend.text("Contact");
 
             $remove
-                .text("Remove User")
+                .text("Remove Contact")
                 .on("click", function () {
                     $(this).parent().remove();
                 });
                 
             $nameLabel.text("Name");
-            $nameValue.val(user.name);
+            $nameValue.val(contact.name);
             
             $idLabel.text("ID");
-            $idValue.val(user.id);
+            $idValue.val(contact.id);
 
-            $joinedLabel.text("Joined");
-            $joinedValue.val(user.offered);
+            $birthdayLabel.text("Birthday");
+            $birthdayValue.val(contact.birthday);
 
-            $user
+            $contact
                 .append($legend)
                 .append($remove)
                 .append($nameLabel)
                 .append($nameValue)
                 .append($idLabel)
                 .append($idValue)
-                .append($joinedLabel)
-                .append($joinedValue)
+                .append($birthdayLabel)
+                .append($birthdayValue)
                 .append($phoneNumbers)
                 .append($emailAddresses);
 
-            return $user;
+            return $contact;
         },
 
         createPhoneNumbersElement = function (phoneNumbers) {
@@ -290,5 +290,5 @@ jQuery(function ($) {//Runs jquery function when everything else on the browser 
             return $emailAddress;
         };
 
-    renderUsers();
+    renderContacts();
 });
