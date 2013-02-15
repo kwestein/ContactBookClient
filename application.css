@@ -1,4 +1,4 @@
-/* 
+//* 
     Document   : application
     Created on : 14-Feb-2013, 1:44:36 PM
     Author     : Kirsten Westeinde
@@ -8,11 +8,13 @@ title{
     margin: auto;
 }
 body {
+    margin: auto;
     font-family: Verdana, sans-serif;
     font-size: 1em;
 }
 
 label {
+    margin: auto;
     display: block;
     margin: 0.5em;
 }
