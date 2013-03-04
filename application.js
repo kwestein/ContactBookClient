@@ -20,8 +20,8 @@ jQuery(function ($) {
         },
         
         isArray = function(serializedElement, attribute) {
-            return typeof serializedElement[attribute.name].push === "function"
-        }
+            return (typeof serializedElement[attribute.name].push === "function")
+        },
 
         renderContacts = function () {
             $.getJSON(serverUrl + contactsPath, function (response) {
