@@ -6,11 +6,11 @@ jQuery(function ($) {
             var serializedElement = {};
             
             $.map($element.serializeArray(), function (attribute) {
-                if (typeof serializedElement[attribute.name] === "undefined") {//if attribute key is undefined, create key
+                if (typeof serializedElement[attribute.name] === "undefined") {
                     serializedElement[attribute.name] = attribute.value;
                 } else {
-                    if (!isArray(serializedElement, attribute)) {//push is a function on array datatype (make another function)
-                        serializedElement[attribute.name] = [serializedElement[attribute.name]];//sets it to the only object being the first value (creating an array of one value. Next time it encounters something of that type it tacks it to the end of the array)
+                    if (!isArray(serializedElement, attribute)) {
+                        serializedElement[attribute.name] = [serializedElement[attribute.name]];
                     }
                     serializedElement[attribute.name].push(attribute.value);
                 }
