@@ -4,23 +4,19 @@
     Author     : Kirsten Westeinde
     Description: 
 */
-title{
-    margin: auto;
-}
+
 body {
-    margin: auto;
     font-family: Verdana, sans-serif;
     font-size: 1em;
 }
 
 label {
-    margin: auto;
     display: block;
     margin: 0.5em;
 }
 
 form {
-    margin: auto; /*tells the document to automatically put equal left and right margins on our element, centering it on the page. */
+    margin: auto;
     width: 40em;
 }
 
