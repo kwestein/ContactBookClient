@@ -5,18 +5,12 @@ jQuery(function ($) {
         serializeElement = function ($element) {
             var serializedElement = {};
             
-            var arr = $element.serializeArray();
-            for (var i=0;i<arr.length;i++)
-            { 
-                console.log(arr[i]);
-            }
-            
             $.map($element.serializeArray(), function (attribute) {
-                if (typeof serializedElement[attribute.name] === "undefined") {
+                if (typeof serializedElement[attribute.name] === "undefined") {//if attribute key is undefined, create key
                     serializedElement[attribute.name] = attribute.value;
                 } else {
-                    if (typeof serializedElement[attribute.name].push !== "function") {
-                        serializedElement[attribute.name] = [serializedElement[attribute.name]];
+                    if (!isArray(serializedElement, attribute)) {//push is a function on array datatype (make another function)
+                        serializedElement[attribute.name] = [serializedElement[attribute.name]];//sets it to the only object being the first value (creating an array of one value. Next time it encounters something of that type it tacks it to the end of the array)
                     }
                     serializedElement[attribute.name].push(attribute.value);
                 }
@@ -24,6 +18,10 @@ jQuery(function ($) {
             
             return serializedElement;
         },
+        
+        isArray = function(serializedElement, attribute) {
+            return typeof serializedElement[attribute.name].push === "function"
+        }
 
         renderContacts = function () {
             $.getJSON(serverUrl + contactsPath, function (response) {
@@ -117,7 +115,10 @@ jQuery(function ($) {
             var $contact = $("<fieldset></fieldset>", {
                     "class": "contact"
                 }),
-                $legend = $("<legend></legend>"),
+                $legend = $("<legend></legend>",
+                {
+                    "class": "legend"
+                })
                 $remove = $("<button></button>", {
                     "type": "button",
                     "class": "remove"
